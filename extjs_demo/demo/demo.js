@@ -42,7 +42,12 @@ pimcore.plugin.demo = Class.create(pimcore.plugin.admin, {
         pimcore.plugin.broker.fireEvent("mdsMenuReady", toolbar.demoButton);
     },
 
-    postOpenObject: function (object, type) {
+    postOpenObject: function (object, type) {        
+        if(object.data.general.o_className == 'OnlineShopOrder'){            
+            for (var i = 0; i < object.data.data.priceModifications.length; i++) {
+                console.log(object.data.data.priceModifications[i].data);
+            }
+        }
         if (object.data.general.o_className == 'Car' && object.data.data.objectType == "actual-car") {
             object.toolbar.add({
                 text: t('print-pdf'),
@@ -145,16 +150,22 @@ pimcore.plugin.demo = Class.create(pimcore.plugin.admin, {
                     xtype: "fieldset",
                     id: "csv_import_form_fieldset",
                     title: t("Import Settings"),
-                    items: [configPanel],
+                    //items: [configPanel],
                 },
             ],
             style: {
                 height: 300,
             },
         });
+
+        // Ext.getCmp("demo_panel").add(configPanel);
+        // configPanel.updateLayout();
+        // this.panel.updateLayout();
+        // pimcore.layout.refresh();
+
         let tabPanel = Ext.getCmp("pimcore_panel_tabs");
         tabPanel.add(this.panel);
-        tabPanel.setActiveItem("csv_import_panel");
+        tabPanel.setActiveItem("demo_panel");
     },
     onFormSubmit: function (form) {
         
