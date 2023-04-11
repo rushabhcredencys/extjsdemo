@@ -62,9 +62,67 @@ Ext.override(Ext.picker.Date, {
         Ext.Msg.alert('Offer', 'Do some changes related to offer date');
     }
 });
-
+console.log("HERE I AM");
 Ext.override('pimcore.object.tags.manyToManyObjectRelation', {
-    initialize: function (data, fieldConfig) {
-        console.log("HERE I AM");
+    getCreateControl: function () {
+
+        var allowedClasses;
+        var i;
+
+        var classStore = pimcore.globalmanager.get("object_types_store");
+        if (this.fieldConfig.classes != null && this.fieldConfig.classes.length > 0) {
+            allowedClasses = [];
+            for (i = 0; i < this.fieldConfig.classes.length; i++) {
+                if (this.fieldConfig.classes[i].classes) {
+                    allowedClasses.push(this.fieldConfig.classes[i].classes);
+                }
+            }
+        } else if (this.fieldConfig.ownerClassName) {
+            allowedClasses = [];
+            allowedClasses.push(this.fieldConfig.ownerClassName);
+        } else if (classStore.data && classStore.data.items && classStore.data.items.length > 0) {
+            allowedClasses = [];
+            for (i = 0; i < classStore.data.items.length; i++) {
+                allowedClasses.push(classStore.data.items[i].data.text);
+            }
+
+        }
+
+        var collectionMenu = [];
+
+        if (allowedClasses && allowedClasses.length > 0) {
+            for (i = 0; i < allowedClasses.length; i++) {
+                collectionMenu.push({
+                    text: t(allowedClasses[i]),
+                    handler: this.create.bind(this, allowedClasses[i]),
+                    iconCls: "pimcore_icon_fieldcollection"
+                });
+            }
+        }
+        var items = [];
+
+        // if (this.fieldConfig.allowToCreateNewObject) {
+        //     if (collectionMenu.length == 1) {
+        //         items.push({
+        //             cls: "pimcore_block_button_plus",
+        //             iconCls: "pimcore_icon_plus",
+        //             handler: collectionMenu[0].handler
+        //         });
+        //     } else if (collectionMenu.length > 1) {
+        //         items.push({
+        //             cls: "pimcore_block_button_plus",
+        //             iconCls: "pimcore_icon_plus",
+        //             menu: collectionMenu
+        //         });
+        //     } else {
+        //         items.push({
+        //             xtype: "tbtext",
+        //             text: t("no_collections_allowed")
+        //         });
+        //     }
+        // }
+
+
+        return items[0];
     }
 });
