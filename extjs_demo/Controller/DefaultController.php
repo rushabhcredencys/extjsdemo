@@ -164,6 +164,14 @@ class DefaultController extends BaseController
     }
 
     /**
+     * @Route("/custom-panel")
+     * @return Response
+     */
+    public function customPanelAction() {        
+        return new Response("Hello I am from custom panel action");
+    }
+
+    /**
      * @Route("/customer-crud")
      * @return Response
      */

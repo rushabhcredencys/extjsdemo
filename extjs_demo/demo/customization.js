@@ -62,8 +62,8 @@ Ext.override(Ext.picker.Date, {
         Ext.Msg.alert('Offer', 'Do some changes related to offer date');
     }
 });
-console.log("HERE I AM");
-Ext.override('pimcore.object.tags.manyToManyObjectRelation', {
+
+Ext.override(pimcore.object.tags.manyToManyObjectRelation, {
     getCreateControl: function () {
 
         var allowedClasses;
