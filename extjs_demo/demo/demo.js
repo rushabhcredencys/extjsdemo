@@ -97,6 +97,7 @@ pimcore.plugin.demo = Class.create(pimcore.plugin.admin, {
                 xtype: "combobox",
                 name: "demoField",
                 id: "demoField",
+                allowBlank: false,
                 fieldLabel: "Demo",
                 store: ["value1", "value2", "value3"],
                 queryMode: "local",
@@ -150,7 +151,7 @@ pimcore.plugin.demo = Class.create(pimcore.plugin.admin, {
                     xtype: "fieldset",
                     id: "csv_import_form_fieldset",
                     title: t("Import Settings"),
-                    //items: [configPanel],
+                    items: [configPanel],
                 },
             ],
             style: {

@@ -251,7 +251,12 @@ pimcore.plugin.pimcorecustom = Class.create(pimcore.plugin.admin, {
                 xtype: 'textfield',
                 reference: 'username', // A named reference to be held on the referenceHolder
                 name: 'username',
-                fieldLabel: 'Username'
+                fieldLabel: 'Username',
+                allowBlank: false,
+                validator: function (enteredValue) {
+                    console.log("ENTERENED VALUE ", enteredValue);
+                    return true;
+                }
             }, 
             {
                 xtype: 'textfield',
@@ -283,17 +288,19 @@ pimcore.plugin.pimcorecustom = Class.create(pimcore.plugin.admin, {
                     let oldRec = [];
                     let errors = 0;  
                     
-                    Ext.Msg.alert('Click', 'Perform the operation');
-
-                    // win.show();
+                    let form = Ext.getCmp("gridForm").getForm();                    
+                    if (form.isValid()) {
+                        Ext.Msg.alert('Click', 'Perform the operation');
+                    }                    
                 },
             },              
             {
                 xtype: "button",
                 text: "Display Window",
                 handler: function () {
-                    win.show();
-                },
+                    this.customPopup();
+                    window.customPopupWindow.show();
+                }.bind(this),
             },
             {
                 xtype: "button",
@@ -358,7 +365,7 @@ pimcore.plugin.pimcorecustom = Class.create(pimcore.plugin.admin, {
 
         
         
-        configPanel = new Ext.form.Panel({ hidden: false, items: formItems });
+        configPanel = new Ext.form.Panel({ id: "gridForm", hidden: false, items: formItems });
 
         this.panel = new Ext.Panel({
             id: "demoPanel",
